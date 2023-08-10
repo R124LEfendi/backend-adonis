@@ -78,5 +78,22 @@ export default class NotesController {
 
   }
 
-  public async destroy({ }: HttpContextContract) { }
+  public async destroy({ params, response }: HttpContextContract) {
+    //mengambil params
+    const { id } = params
+
+    //get data dari note
+    const note = await Note.query()
+      .where({ id: id })
+      .firstOrFail()
+
+    //delete data query
+    await note.delete()
+
+    return response.json({
+      message: "data berhasil dihapus"
+    })
+
+
+  }
 }
