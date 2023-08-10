@@ -22,6 +22,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 
-// Route.resource('/', 'NotesController')
+
 // routes.js (di dalam folder start)
-Route.get('/api/data', 'DataController.index');
+
+Route.resource('/note', 'NotesController')

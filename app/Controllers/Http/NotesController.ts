@@ -26,11 +26,57 @@ export default class NotesController {
 
   }
 
-  public async show({ }: HttpContextContract) { }
+  public async show({ params, response }: HttpContextContract) {
+    const { id } = params
+    const note = await Note.query()
+      .where({ id: id })
+      .firstOrFail()
+
+    return response.json({
+      data: {
+        note: note
+      }
+    })
+  }
 
   public async edit({ }: HttpContextContract) { }
 
-  public async update({ }: HttpContextContract) { }
+  public async update({ params, request, response }: HttpContextContract) {
+    //mengambil params
+    const { id } = params
+
+    //mengambil data dari body
+    const { title, content } = request.body()
+
+    //get data dari note
+    const note = await Note.query()
+      .where({ id: id })
+      .firstOrFail()
+
+    //update data query cara (1)
+    // note.merge({
+    //   title: title,
+    //   content: content
+    // }).save()
+
+    //update data query cara (2)
+    note.title = title
+    note.content = content
+    note.save()
+
+    //update data query cara (3)
+    // await Note.query()
+    //   .where({ id: id })
+    //   .update({
+    //     title: title,
+    //     content: content
+    //   })
+
+    return response.json({
+      message: "data berhasil diupdate"
+    })
+
+  }
 
   public async destroy({ }: HttpContextContract) { }
 }
