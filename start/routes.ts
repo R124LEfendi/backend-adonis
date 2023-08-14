@@ -23,6 +23,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 
 
-// routes.js (di dalam folder start)
+Route.group(() => {
+  Route.resource('/note', 'NotesController')
+}).middleware('auth')
 
-Route.resource('/note', 'NotesController')
+
+Route.post('/register', 'AuthController.register')
+Route.post('/login', 'AuthController.login')
